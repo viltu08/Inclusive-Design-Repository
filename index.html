@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets Content Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #content {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Website Content</h1>
+    <div id="content">
+        <p>This content will be replaced by Google Sheet data.</p>
+    </div>
+
+    <script>
+        // Google Sheets API URL (Replace with your sheet's ID and range)
+        const sheetId = '2PACX-1vR07b8VHEz0yZxxvxcnk3kCfuuysmEXVcdCOGF2WSWEtpJVVma-RCryEFUNKhtTJg';  // e.g., 1hHssKrNnylxvPv9DJyN9qPZ6ZJ...
+        const range = 'Sheet1!A1:D1000';  // Specify the range of cells to fetch (A1 to C10)
+        const apiKey = 'AIzaSyCBe2Ki3CJ3OlZ0wo0VcVev5fKOsc1AhZE';  // Your API Key
+
+        // Construct the API request URL
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+
+        // Fetch data from the Google Sheet
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // Get the values from the response (the rows and columns of the sheet)
+                const rows = data.values;
+
+                // Check if there are rows in the sheet
+                if (rows.length > 0) {
+                    let htmlContent = '<table border="1" cellpadding="5" cellspacing="0">';
+                    rows.forEach(row => {
+                        htmlContent += '<tr>';
+                        row.forEach(cell => {
+                            htmlContent += `<td>${cell}</td>`;
+                        });
+                        htmlContent += '</tr>';
+                    });
+                    htmlContent += '</table>';
+
+                    // Replace the content of the page with the Google Sheet data
+                    document.getElementById('content').innerHTML = htmlContent;
+                } else {
+                    document.getElementById('content').innerHTML = 'No data available in the sheet.';
+                }
+            })
+            .catch(error => {
+                document.getElementById('content').innerHTML = 'Error loading data from Google Sheets.';
+                console.error('Error fetching data: ', error);
+            });
+    </script>
+</body>
+</html>
