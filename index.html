@@ -21,9 +21,9 @@
     </div>
 
     <script>
-        // Google Sheets API URL (Replace with your sheet's ID and range)
-        const sheetId = '2PACX-1vR07b8VHEz0yZxxvxcnk3kCfuuysmEXVcdCOGF2WSWEtpJVVma-RCryEFUNKhtTJg';  // e.g., 1hHssKrNnylxvPv9DJyN9qPZ6ZJ...
-        const range = 'Sheet1!A1:D1000';  // Specify the range of cells to fetch (A1 to C10)
+        // Google Sheets API URL (using your provided sheet ID)
+        const sheetId = '14M7ml6bHcjtRke_HjzPABkDSXcWAm2FV';  // Google Sheets ID (extracted from URL)
+        const range = 'Sheet1!A1:D1000';  // Range of data you want to fetch (adjust this if needed)
         const apiKey = 'AIzaSyCBe2Ki3CJ3OlZ0wo0VcVev5fKOsc1AhZE';  // Your API Key
 
         // Construct the API request URL
@@ -37,7 +37,7 @@
                 const rows = data.values;
 
                 // Check if there are rows in the sheet
-                if (rows.length > 0) {
+                if (rows && rows.length > 0) {
                     let htmlContent = '<table border="1" cellpadding="5" cellspacing="0">';
                     rows.forEach(row => {
                         htmlContent += '<tr>';
